@@ -31,6 +31,13 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="org.lulz.jrat.LoginActivity"/>
         </activity>
+        <activity
+            android:name="org.lulz.jrat.AppHome"
+            android:parentActivityName="org.lulz.jrat.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.lulz.jrat.LoginActivity"/>
+        </activity>
     </application>
 
 </manifest>
