@@ -59,6 +59,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Create another button variable for registration
+        Button registerButton = null;
+
+        registerButton = (Button) findViewById(R.id.registrationButton);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent regIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(regIntent);
+            }
+        });
     }
 
     public void login() {
