@@ -8,11 +8,14 @@
 
     <Button
         android:text="@string/action_sign_in"
-        android:layout_height="wrap_content" android:id="@+id/button_sign_in" android:layout_width="match_parent"
-        android:onClick="onSignInPressed"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_sign_in"
+        android:onClick="onLoginPressed"/>
     <Button
         android:text="@string/action_sign_in_guest"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" android:id="@+id/button_sign_in_guest"
-        android:onClick="onSignInGuestPressed"/>
+        android:layout_height="wrap_content"
+        android:id="@+id/button_sign_in_guest"
+        android:onClick="onLoginGuestPressed"/>
 </LinearLayout>

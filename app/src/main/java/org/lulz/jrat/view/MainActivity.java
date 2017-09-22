@@ -18,10 +18,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,13 +33,17 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
-            TextView textView = findViewById(R.id.textView);
-            textView.setText(user.getDisplayName());
+            TextView textView = findViewById(R.id.textview_name);
+            if (user.isAnonymous()) {
+                textView.setText(R.string.anonymous_user);
+            } else {
+                textView.setText(user.getDisplayName());
+            }
 
-            TextView textView2 = findViewById(R.id.textView2);
+            TextView textView2 = findViewById(R.id.textview_email);
             textView2.setText(user.getEmail());
 
-            TextView textView3 = findViewById(R.id.textView3);
+            TextView textView3 = findViewById(R.id.textview_phone);
             textView3.setText(user.getPhoneNumber());
         }
     }
