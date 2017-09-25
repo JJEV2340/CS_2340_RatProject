@@ -38,58 +38,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+/**
+ * Created by O_Ji on 9/24/17.
+ */
 
-public class LoginActivity extends AppCompatActivity {
-    private static final String TAG = "LoginActivity";
+public class WelcomeActivity extends AppCompatActivity {
+    private static final String TAG = "WelcomeActivity";
     private static final int REQUEST_SIGNUP = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // Start up my activity login view
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.welcome_screen);
+
+        // Create a variable to store reference the button
         Button loginButton = null;
 
-        loginButton = (Button) findViewById(R.id.email_sign_in_button);
+        loginButton = (Button) findViewById(R.id.signin);
         loginButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "Login Attempt");
-                if(!validate()) {
-                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.login_form), "Login Unsucessful", Snackbar.LENGTH_SHORT);
-                    mySnackbar.show();
-                }
-                else {
-                    Intent intent = new Intent(getApplicationContext(), AppHome.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
-        Button cancelButton = null;
-        cancelButton = (Button) findViewById(R.id.email_sign_in_cancel);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent regIntent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                Intent regIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(regIntent);
+                finish();
             }
         });
+        // Create another button variable for registration
+        Button registerButton = null;
 
-    }
-
-
-    public boolean validate() {
-        String username = ((AutoCompleteTextView) findViewById(R.id.username)).getText().toString();
-        String password = ((EditText) findViewById(R.id.password)).getText().toString();
-
-
-        // Eventually we can implement more sophisticated ideas here for
-        // authentication and security
-        if(username.equals("Rat") && password.equals("Test")) {
-            return true;
-        }
-        return false;
+        registerButton = (Button) findViewById(R.id.registration);
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent regIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(regIntent);
+                finish();
+            }
+        });
     }
 
 }

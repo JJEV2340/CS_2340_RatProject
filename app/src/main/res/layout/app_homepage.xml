@@ -6,8 +6,15 @@
     tools:context="org.lulz.jrat.AppHome">
 
 <ImageView
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
+    android:layout_width="337dp"
+    android:layout_height="438dp"
     android:src="@drawable/nycmap" />
-
+    <Button
+        android:id="@+id/homepage_logout"
+        style="?android:textAppearanceSmall"
+        android:layout_width="177dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Log Out"
+        android:textStyle="bold" />
 </LinearLayout>

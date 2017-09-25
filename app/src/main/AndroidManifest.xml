@@ -15,13 +15,19 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name="org.lulz.jrat.LoginActivity"
-                android:label="@string/title_activity_login">
+            android:name="org.lulz.jrat.WelcomeActivity"
+            android:label="Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+                android:name="org.lulz.jrat.LoginActivity"
+                android:label="@string/title_activity_login"
+                android:parentActivityName="org.lulz.jrat.WelcomeActivity">
+
         </activity>
         <activity
                 android:name="org.lulz.jrat.RegisterActivity"

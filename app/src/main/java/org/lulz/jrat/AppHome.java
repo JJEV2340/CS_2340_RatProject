@@ -44,5 +44,18 @@ public class AppHome extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_homepage);
+        Button logoutButton = null;
+
+        logoutButton = (Button) findViewById(R.id.homepage_logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent regIntent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(regIntent);
+
+                finish();
+            }
+        });
     }
 }
