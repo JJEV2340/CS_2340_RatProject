@@ -2,18 +2,23 @@ package org.lulz.jrat.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.ErrorCodes;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import org.lulz.jrat.R;
 
-import java.util.Arrays;
-
 public class WelcomeActivity extends AppCompatActivity {
+    private static final int RC_SIGN_IN = 420; // wake and bake
     private FirebaseAuth mAuth;
 
     @Override
@@ -22,17 +27,42 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         mAuth = FirebaseAuth.getInstance();
-        mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (mAuth.getCurrentUser() != null) {
-                    // user logged in
-                    startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
-                    finish();
-                    mAuth.removeAuthStateListener(this);
+
+        if (mAuth.getCurrentUser() != null) {
+            // already logged in
+            loginSuccess();
+        }
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+            if (resultCode == RESULT_OK) {
+                // Successfully signed in
+                loginSuccess();
+                return;
+            } else {
+                // Sign in failed
+                if (response == null) {
+                    // User pressed back button
+                    showSnackbar(R.string.sign_in_cancelled);
+                    return;
+                }
+
+                if (response.getErrorCode() == ErrorCodes.NO_NETWORK) {
+                    showSnackbar(R.string.no_internet_connection);
+                    return;
+                }
+
+                if (response.getErrorCode() == ErrorCodes.UNKNOWN_ERROR) {
+                    showSnackbar(R.string.unknown_error);
+                    return;
                 }
             }
-        });
+
+            showSnackbar(R.string.unknown_sign_in_response);
+        }
     }
 
     /**
@@ -41,11 +71,9 @@ public class WelcomeActivity extends AppCompatActivity {
      * @param view the button
      */
     public void onLoginPressed(View view) {
-        startActivity(
-                AuthUI.getInstance()
-                        .createSignInIntentBuilder()
-                        //.setIsSmartLockEnabled(!BuildConfig.DEBUG)
-                        .build());
+        startActivityForResult(
+                AuthUI.getInstance().createSignInIntentBuilder().build(),
+                RC_SIGN_IN);
     }
 
     /**
@@ -59,6 +87,21 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onFailure(@NonNull Exception e) {
                 Snackbar.make(view, "Unable to sign in anonymously.", Snackbar.LENGTH_SHORT).show();
             }
+        }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                loginSuccess();
+            }
         });
+    }
+
+    private void loginSuccess() {
+        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+        finish();
+    }
+
+    @MainThread
+    private void showSnackbar(@StringRes int stringRes) {
+        Snackbar.make(findViewById(android.R.id.content), stringRes, Snackbar.LENGTH_SHORT).show();
     }
 }
