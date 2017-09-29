@@ -48,6 +48,7 @@ public class LoginActivity extends AppCompatActivity implements Authentication{
         // Start up my activity login view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         Button loginButton = null;
 
         loginButton = (Button) findViewById(R.id.email_sign_in_button);

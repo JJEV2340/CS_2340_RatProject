@@ -74,6 +74,18 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         setupActionBar();
+
+        //back button
+        Button backButton = null;
+
+        backButton = (Button) findViewById(R.id.email_sign_in_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                onBackPressed();
+
+            }
+        });
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
