@@ -3,6 +3,7 @@ package org.lulz.jrat;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -27,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import org.lulz.jrat.jrat.R;
 
@@ -38,7 +40,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
+public class RegisterActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, Authentication {
 
     /**
      * Id to identity READ_CONTACTS permission request.
@@ -49,19 +51,23 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
      */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private EditText mUsernameView;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Spinner mAccessLevelSpinner;
+    private String[] adminSpinnerValues = {"Admin", "User"};
+
+    // new user to be registered
+    private User newUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         setContentView(R.layout.activity_register);
         setupActionBar();
         // Set up the login form.
+        mUsernameView = (EditText) findViewById(R.id.username);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -94,6 +101,12 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        //Spinner for choosing access level
+        mAccessLevelSpinner = (Spinner) findViewById(R.id.admin_user_spinner);
+        ArrayAdapter<String> accessLevelAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, adminSpinnerValues);
+        accessLevelAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mAccessLevelSpinner.setAdapter(accessLevelAdapter);
     }
 
     private void populateAutoComplete() {
@@ -161,29 +174,49 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
         }
 
         // Reset errors.
+        mUsernameView.setError(null);
         mEmailView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
-        String password = mPasswordView.getText().toString();
+        String mUsername = mUsernameView.getText().toString();
+        String mPassword = mPasswordView.getText().toString();
+        String mEmail = mEmailView.getText().toString();
+        String mAccessLevel = mAccessLevelSpinner.getSelectedItem().toString();
+        int accessLevel = 1;
+        switch (mAccessLevel) {
+            case "Admin": accessLevel = 0;
+            case "User": accessLevel = 1;
+        }
 
         boolean cancel = false;
         View focusView = null;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(mPassword) && !isPasswordValid(mPassword)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
 
+        // Check for a valid username, if the user entered one.
+        if (TextUtils.isEmpty(mUsername)) {
+            mUsernameView.setError("You must enter username!");
+            focusView = mUsernameView;
+            cancel = true;
+        }
+        if (!isUsernameValid(mUsername)) {
+            mUsernameView.setError("That username is already taken!");
+            focusView = mUsernameView;
+            cancel = true;
+        }
+
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
+        if (TextUtils.isEmpty(mEmail)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
+        } else if (!isEmailValid(mEmail)) {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
             cancel = true;
@@ -197,16 +230,37 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(mUsername, mPassword, mEmail, accessLevel);
             mAuthTask.execute((Void) null);
         }
     }
 
+    /**
+     * check for validity of username
+     * username is valid if it is not taken
+     * @param username username user entered during registration
+     * @return true if authMap does not contain Object by username key
+     */
+    private boolean isUsernameValid(String username) {
+        //TODO: Length restriction, perhaps?
+        return !authMap.containsKey(username);
+    }
+
+    /**
+     * check for validity of email address
+     * @param email email user entered during registration
+     * @return
+     */
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
         return email.contains("@");
     }
 
+    /**
+     * check for validity of password
+     * @param password password user entered during registration
+     * @return
+     */
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
         return password.length() > 4;
@@ -308,12 +362,16 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
+        private final String username;
+        private final String password;
+        private final String email;
+        private final int accessLevel;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
+        UserLoginTask(String username, String password, String email, int accessLevel) {
+            this.username = username;
+            this.password = password;
+            this.email = email;
+            this.accessLevel = accessLevel;
         }
 
         @Override
@@ -327,15 +385,13 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
+            newUser = new User(username, password, email, accessLevel);
+            if (authMap.containsValue(newUser)) {
+                return true;
             }
 
             // TODO: register the new account here.
+            authMap.put(username, newUser);
             return true;
         }
 
@@ -344,7 +400,10 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             mAuthTask = null;
             showProgress(false);
 
+            // if registration was successful, go to login screen
             if (success) {
+                Intent loginIntent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(loginIntent);
                 finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

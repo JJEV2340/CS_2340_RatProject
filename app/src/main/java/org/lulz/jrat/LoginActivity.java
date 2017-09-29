@@ -39,9 +39,10 @@ import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements Authentication{
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // Start up my activity login view
@@ -86,7 +87,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // Eventually we can implement more sophisticated ideas here for
         // authentication and security
-        if(username.equals("Rat") && password.equals("Test")) {
+        // use HashMap in Authentication interface to check
+        // if user is registered 09/27JIN
+        if(authMap.containsKey(username) && authMap.get(username).getUserPW().equals(password)) {
             return true;
         }
         return false;

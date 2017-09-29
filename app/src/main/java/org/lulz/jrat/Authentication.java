@@ -1,8 +1,12 @@
 package org.lulz.jrat;
 
-/**
- * Created by excal on 2017-09-26.
- */
+import java.util.HashMap;
 
+/**
+ * Authentication interface that maps User objects
+ * to userID as key
+ * Jin Woo Lee 09/27
+ */
 public interface Authentication {
+    static final HashMap<String, User> authMap = new HashMap<>();
 }
