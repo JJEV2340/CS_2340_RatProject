@@ -61,7 +61,6 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent regIntent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(regIntent);
-                finish();
             }
         });
         // Create another button variable for registration
@@ -73,7 +72,6 @@ public class WelcomeActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent regIntent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(regIntent);
-                finish();
             }
         });
     }
