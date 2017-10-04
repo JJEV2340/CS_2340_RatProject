@@ -10,4 +10,5 @@
     <string name="unknown_error">An unknown error occurred</string>
 
     <string name="anonymous_user">Anonymous User</string>
+    <string name="action_sign_out">Logout</string>
 </resources>
