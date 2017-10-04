@@ -63,6 +63,7 @@ public class LoginActivity extends AppCompatActivity implements Authentication{
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), AppHome.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
                 }
@@ -74,7 +75,8 @@ public class LoginActivity extends AppCompatActivity implements Authentication{
             @Override
             public void onClick(View view) {
                 Intent regIntent = new Intent(getApplicationContext(), WelcomeActivity.class);
-                startActivity(regIntent);
+                navigateUpTo(regIntent);
+                finish();
             }
         });
 
