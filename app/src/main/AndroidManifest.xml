@@ -27,15 +27,17 @@
                 android:name="org.lulz.jrat.LoginActivity"
                 android:label="@string/title_activity_login"
                 android:parentActivityName="org.lulz.jrat.WelcomeActivity">
-
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.lulz.jrat.WelcomeActivity"/>
         </activity>
         <activity
                 android:name="org.lulz.jrat.RegisterActivity"
                 android:label="@string/title_activity_register"
-                android:parentActivityName="org.lulz.jrat.LoginActivity">
+                android:parentActivityName="org.lulz.jrat.WelcomeActivity">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="org.lulz.jrat.LoginActivity"/>
+                    android:value="org.lulz.jrat.WelcomeActivity"/>
         </activity>
         <activity
             android:name="org.lulz.jrat.AppHome"

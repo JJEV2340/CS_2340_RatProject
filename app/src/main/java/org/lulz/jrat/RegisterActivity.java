@@ -86,6 +86,17 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
             }
         });
+
+        Button cancelButton = null;
+        cancelButton = (Button) findViewById(R.id.email_sign_in_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent regIntent = new Intent(getApplicationContext(), WelcomeActivity.class);
+                startActivity(regIntent);
+            }
+        });
+
         // Set up the login form.
         mUsernameView = (EditText) findViewById(R.id.username);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
