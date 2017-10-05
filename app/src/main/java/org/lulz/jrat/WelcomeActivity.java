@@ -3,7 +3,9 @@ package org.lulz.jrat;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -34,15 +36,21 @@ import android.widget.TextView;
 import android.util.Log;
 import org.lulz.jrat.jrat.R;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.Manifest.permission.PACKAGE_USAGE_STATS;
 import static android.Manifest.permission.READ_CONTACTS;
 /**
  * Created by O_Ji on 9/24/17.
  */
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity implements SystemInformation{
     private static final String TAG = "WelcomeActivity";
     private static final int REQUEST_SIGNUP = 0;
 
@@ -51,6 +59,9 @@ public class WelcomeActivity extends AppCompatActivity {
         // Start up my activity login view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_screen);
+
+        if(sightingList.size() == 0)
+            readRatData(this);
 
         // Create a variable to store reference the button
         Button loginButton = null;
@@ -76,4 +87,12 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
+    private void readRatData(Context context) {
+        DataBaseHelper myDBHelper = new DataBaseHelper(context);
+        try {
+            myDBHelper.createDataBase();
+        } catch (IOException ex) {
+            throw new Error("we're fucked");
+        }
+    }
 }

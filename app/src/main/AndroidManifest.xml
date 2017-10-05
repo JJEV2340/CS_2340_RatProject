@@ -46,6 +46,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.lulz.jrat.LoginActivity"/>
         </activity>
+        <activity
+            android:name="org.lulz.jrat.RatActivity"
+            android:label="RatDisplay"
+            android:parentActivityName="org.lulz.jrat.WelcomeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.lulz.jrat.WelcomeActivity"/>
+        </activity>
     </application>
 
 </manifest>

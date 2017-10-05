@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -33,12 +34,19 @@ import android.widget.TextView;
 import android.util.Log;
 import org.lulz.jrat.jrat.R;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import static android.Manifest.permission.READ_CONTACTS;
 
-public class AppHome extends Activity {
+public class AppHome extends Activity implements SystemInformation {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
