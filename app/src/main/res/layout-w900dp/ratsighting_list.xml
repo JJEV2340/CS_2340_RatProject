@@ -23,7 +23,8 @@
                                             android:layout_height="match_parent"
                                             app:layoutManager="LinearLayoutManager"
                                             tools:context="org.lulz.jrat.view.impl.RatSightingListActivity"
-                                            tools:listitem="@layout/ratsighting_list_content"/>
+                                            tools:listitem="@layout/ratsighting_list_content"
+                                            android:scrollbars="vertical"/>
 
     <FrameLayout
             android:id="@+id/ratsighting_detail_container"
