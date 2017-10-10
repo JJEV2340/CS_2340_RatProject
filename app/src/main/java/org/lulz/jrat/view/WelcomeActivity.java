@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import org.lulz.jrat.R;
+import org.lulz.jrat.view.impl.RatSightingListActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 420; // wake and bake
@@ -96,7 +97,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void loginSuccess() {
-        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
+        startActivity(new Intent(WelcomeActivity.this, RatSightingListActivity.class));
         finish();
     }
 

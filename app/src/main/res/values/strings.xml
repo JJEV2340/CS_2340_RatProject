@@ -2,7 +2,6 @@
     <string name="app_name">jRAT</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_guest">Sign in as guest</string>
-    <string name="title_activity_main">MainActivity</string>
 
     <string name="unknown_sign_in_response">Unknown response from AuthUI sign-in</string>
     <string name="sign_in_cancelled">Sign in cancelled</string>
@@ -10,4 +9,6 @@
     <string name="unknown_error">An unknown error occurred</string>
 
     <string name="anonymous_user">Anonymous User</string>
+    <string name="title_ratsighting_list">RatSightings</string>
+    <string name="title_ratsighting_detail">RatSighting Detail</string>
 </resources>

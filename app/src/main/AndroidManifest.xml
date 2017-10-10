@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.lulz.jrat">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="org.lulz.jrat">
 
     <application
-        android:allowBackup="false"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@drawable/ic_launcher"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+            android:allowBackup="false"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@drawable/ic_launcher"
+            android:supportsRtl="true"
+            android:theme="@style/AppTheme"
+            tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".view.WelcomeActivity"
-            android:theme="@style/AppTheme.NoActionBar.Fullscreen">
+                android:name=".view.WelcomeActivity"
+                android:theme="@style/AppTheme.NoActionBar.Fullscreen">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
+                android:name=".view.impl.RatSightingListActivity"
+                android:label="@string/title_ratsighting_list"
+                android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+                android:name=".view.impl.RatSightingDetailActivity"
+                android:label="@string/title_ratsighting_detail"
+                android:parentActivityName=".view.impl.RatSightingListActivity"
+                android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="org.lulz.jrat.view.impl.RatSightingListActivity"/>
         </activity>
     </application>
+
 </manifest>
