@@ -11,6 +11,9 @@ import android.widget.TextView;
 import org.lulz.jrat.R;
 import org.lulz.jrat.model.impl.RatSighting;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 /**
  * A fragment representing a single RatSighting detail screen.
  * This fragment is either contained in a {@link RatSightingListActivity}
@@ -18,6 +21,8 @@ import org.lulz.jrat.model.impl.RatSighting;
  * on handsets.
  */
 public class RatSightingDetailFragment extends Fragment {
+    private static final DateFormat DATE_FORMAT = SimpleDateFormat.getDateTimeInstance();
+
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -29,6 +34,11 @@ public class RatSightingDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_SIGHTING = "rats, rats, we are the rats";
+
+    /**
+     * The id of the rat sighting this fragment is presenting.
+     */
+    private String itemId;
 
     /**
      * The RatSighting this fragment is presenting.
@@ -46,17 +56,15 @@ public class RatSightingDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (getArguments().containsKey(ARG_SIGHTING)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = getArguments().getParcelable(ARG_SIGHTING);
+        // Load the content specified by the fragment
+        // arguments.
+        itemId = getArguments().getString(ARG_ITEM_ID);
+        mItem = getArguments().getParcelable(ARG_SIGHTING);
 
-            Activity activity = this.getActivity();
-            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
-            if (appBarLayout != null) {
-                appBarLayout.setTitle(mItem.getAddress());
-            }
+        Activity activity = this.getActivity();
+        CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(itemId);
         }
     }
 
@@ -65,9 +73,20 @@ public class RatSightingDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.ratsighting_detail, container, false);
 
-        // Show the dummy content as text in a TextView.
+        // Show the content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.ratsighting_detail)).setText(mItem.getLocation().toString());
+            String date = DATE_FORMAT.format(mItem.getDate());
+            ((TextView) rootView.findViewById(R.id.textViewDate)).setText(date);
+
+            String location = String.format("%s, %s",
+                    mItem.getLocation().getLatitude(), mItem.getLocation().getLongitude());
+            ((TextView) rootView.findViewById(R.id.textViewLocation)).setText(location);
+
+            ((TextView) rootView.findViewById(R.id.textViewLocationType)).setText(mItem.getLocationType());
+            ((TextView) rootView.findViewById(R.id.textViewZip)).setText(mItem.getZip());
+            ((TextView) rootView.findViewById(R.id.textViewAddress)).setText(mItem.getAddress());
+            ((TextView) rootView.findViewById(R.id.textViewCity)).setText(mItem.getCity());
+            ((TextView) rootView.findViewById(R.id.textViewBorough)).setText(mItem.getBorough());
         }
 
         return rootView;

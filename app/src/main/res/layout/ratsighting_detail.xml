@@ -1,9 +1,71 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          android:id="@+id/ratsighting_detail"
-          style="?android:attr/textAppearanceLarge"
-          android:layout_width="match_parent"
-          android:layout_height="match_parent"
-          android:padding="16dp"
-          android:textIsSelectable="true"
-          tools:context="org.lulz.jrat.view.impl.RatSightingDetailFragment"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/ratsighting_detail"
+              style="?android:attr/textAppearanceLarge"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="16dp"
+              android:textIsSelectable="true"
+              tools:context="org.lulz.jrat.view.impl.RatSightingDetailFragment" android:orientation="vertical">
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/labelDate"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_date"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textViewDate"
+            android:layout_marginBottom="@dimen/text_margin"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/labelLocationType"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_location_type"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textViewLocationType"
+            android:layout_marginBottom="@dimen/text_margin"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/labelAddress"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_address"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textViewAddress"
+            android:layout_marginBottom="@dimen/text_margin"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/labelCity"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" android:text="@string/label_city"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textViewCity"
+            android:layout_marginBottom="@dimen/text_margin"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/labelBorough"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_borough"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textViewBorough"
+            android:layout_marginBottom="@dimen/text_margin"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/labelZip"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium" android:text="@string/label_zip"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textViewZip"
+            android:layout_marginBottom="@dimen/text_margin"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/labelLocation"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_location"/>
+    <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textViewLocation"
+            android:layout_marginBottom="@dimen/text_margin"/>
+</LinearLayout>

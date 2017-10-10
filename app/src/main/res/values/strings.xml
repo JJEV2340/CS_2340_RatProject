@@ -2,13 +2,21 @@
     <string name="app_name">jRAT</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_guest">Sign in as guest</string>
+    <string name="anonymous_user">Anonymous User</string>
 
     <string name="unknown_sign_in_response">Unknown response from AuthUI sign-in</string>
     <string name="sign_in_cancelled">Sign in cancelled</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="unknown_error">An unknown error occurred</string>
 
-    <string name="anonymous_user">Anonymous User</string>
     <string name="title_ratsighting_list">RatSightings</string>
     <string name="title_ratsighting_detail">RatSighting Detail</string>
+
+    <string name="label_address">Address</string>
+    <string name="label_date">Date</string>
+    <string name="label_location_type">Location Type</string>
+    <string name="label_city">City</string>
+    <string name="label_borough">Borough</string>
+    <string name="label_zip">Zip Code</string>
+    <string name="label_location">Location</string>
 </resources>
