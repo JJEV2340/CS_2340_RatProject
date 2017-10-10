@@ -1,4 +1,4 @@
-package org.lulz.jrat.view;
+package org.lulz.jrat.view.impl;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import org.lulz.jrat.BuildConfig;
 import org.lulz.jrat.R;
-import org.lulz.jrat.view.impl.RatSightingListActivity;
 
 public class WelcomeActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 420; // wake and bake

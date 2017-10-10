@@ -19,7 +19,6 @@ import com.google.firebase.firestore.Query;
 import org.lulz.jrat.R;
 
 import org.lulz.jrat.model.impl.RatSighting;
-import org.lulz.jrat.view.WelcomeActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
