@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import org.lulz.jrat.BuildConfig;
 import org.lulz.jrat.R;
 import org.lulz.jrat.view.impl.RatSightingListActivity;
 
@@ -73,7 +74,10 @@ public class WelcomeActivity extends AppCompatActivity {
      */
     public void onLoginPressed(View view) {
         startActivityForResult(
-                AuthUI.getInstance().createSignInIntentBuilder().build(),
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setIsSmartLockEnabled(!BuildConfig.DEBUG)
+                        .build(),
                 RC_SIGN_IN);
     }
 
