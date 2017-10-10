@@ -9,8 +9,8 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="unknown_error">An unknown error occurred</string>
 
-    <string name="title_ratsighting_list">RatSightings</string>
-    <string name="title_ratsighting_detail">RatSighting Detail</string>
+    <string name="title_ratsighting_list">Rat Sightings</string>
+    <string name="title_ratsighting_detail">Rat Sighting Detail</string>
 
     <string name="label_address">Address</string>
     <string name="label_date">Date</string>
