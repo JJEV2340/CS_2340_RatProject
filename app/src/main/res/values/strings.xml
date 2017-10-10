@@ -2,6 +2,7 @@
     <string name="app_name">jRAT</string>
     <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_guest">Sign in as guest</string>
+    <string name="action_sign_out">Sign out</string>
     <string name="anonymous_user">Anonymous User</string>
 
     <string name="unknown_sign_in_response">Unknown response from AuthUI sign-in</string>

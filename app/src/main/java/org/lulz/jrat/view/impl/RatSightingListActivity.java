@@ -9,17 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.*;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import org.lulz.jrat.R;
 
 import org.lulz.jrat.model.impl.RatSighting;
+import org.lulz.jrat.view.WelcomeActivity;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -122,5 +122,29 @@ public class RatSightingListActivity extends AppCompatActivity {
             }
         };
         recyclerView.setAdapter(adapter);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_sign_out) {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, WelcomeActivity.class));
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
