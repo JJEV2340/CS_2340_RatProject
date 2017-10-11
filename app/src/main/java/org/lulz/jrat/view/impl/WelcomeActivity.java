@@ -35,6 +35,7 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RC_SIGN_IN) {
@@ -99,6 +100,9 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Displays the main activity after logging in.
+     */
     private void loginSuccess() {
         startActivity(new Intent(WelcomeActivity.this, RatSightingListActivity.class));
         finish();

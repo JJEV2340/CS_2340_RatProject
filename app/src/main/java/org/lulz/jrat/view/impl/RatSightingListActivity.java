@@ -71,14 +71,19 @@ public class RatSightingListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        // We limit the query to 500 so it doesn't crash.
+        // FirebaseUI should have support for pagination soon:
+        // https://github.com/firebase/FirebaseUI-Android/issues/965
         Query query = FirebaseFirestore.getInstance()
                 .collection("sightings")
                 .orderBy("date", Query.Direction.DESCENDING)
                 .limit(500);
+
         FirestoreRecyclerOptions<RatSighting> options = new FirestoreRecyclerOptions.Builder<RatSighting>()
                 .setQuery(query, RatSighting.class)
                 .setLifecycleOwner(this)
                 .build();
+
         FirestoreRecyclerAdapter adapter = new FirestoreRecyclerAdapter<RatSighting, RatSightingHolder>(options) {
             @Override
             public void onBindViewHolder(final RatSightingHolder holder, int position, final RatSighting model) {
