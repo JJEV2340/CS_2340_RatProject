@@ -34,6 +34,15 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="org.lulz.jrat.view.impl.RatSightingListActivity"/>
         </activity>
+        <activity
+            android:name=".view.impl.RatSightingAdd"
+            android:label="Add Rat Sighting"
+            android:parentActivityName=".view.impl.RatSightingListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.lulz.jrat.view.impl.RatSightingListActivity"/>
+        </activity>
     </application>
 
 </manifest>
