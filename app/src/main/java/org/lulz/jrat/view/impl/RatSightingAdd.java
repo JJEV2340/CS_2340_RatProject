@@ -1,7 +1,11 @@
 package org.lulz.jrat.view.impl;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +18,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -36,12 +45,15 @@ import java.text.SimpleDateFormat;
  * item details side-by-side using two vertical panes.
  */
 public class RatSightingAdd extends AppCompatActivity {
-
+    private  EditText dateText = null, timeText = null;
+    private int year, month, day, hour, minute, zipcode;
+    private String locationType, address, city, borough;
+    private DatePicker datePicker;
+    private Calendar calendar;
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +64,99 @@ public class RatSightingAdd extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        Button reportBUtton = null;
 
+        reportBUtton = (Button) findViewById(R.id.report_button);
+        reportBUtton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                reportSighting();
+
+            }
+        });
+        Button cancelButton = null;
+
+        cancelButton = (Button) findViewById(R.id.cancel_button);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+
+                Intent regIntent = new Intent(getApplicationContext(), RatSightingListActivity.class);
+                startActivity(regIntent);
+
+            }
+        });
+
+
+        dateText = (EditText) findViewById(R.id.date);
+        dateText.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                datePicker();
+            }
+        });
+        timeText = (EditText) findViewById(R.id.time);
+        timeText.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                timePicker();
+            }
+        });
     }
+    public void datePicker() {
+        // TODO Auto-generated method stub
+        //To show current date in the datepicker
+        Calendar mcurrentDate = Calendar.getInstance();
+        year = mcurrentDate.get(Calendar.YEAR);
+        month = mcurrentDate.get(Calendar.MONTH);
+        day = mcurrentDate.get(Calendar.DAY_OF_MONTH);
 
+        DatePickerDialog mDatePicker;
+        mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                // TODO Auto-generated method stub
+                    /*      Your code   to get date and time    */
+                month = selectedmonth + 1;
+                day = selectedday;
+                year = selectedyear;
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(datepicker.getYear(), datepicker.getMonth()-1, datepicker.getDayOfMonth());
+                dateText.setText("" + month + "/" + day + "/" + year + "");
+            }
+        }, year, month, day);
+        mDatePicker.setTitle("Select Date");
+        mDatePicker.show();
+    }
+    public void timePicker() {
+        // TODO Auto-generated method stub
+        //To show current date in the datepicker
+        Calendar mcurrentTime = Calendar.getInstance();
+        int chour = mcurrentTime.get(Calendar.HOUR_OF_DAY);
+        int cminute = mcurrentTime.get(Calendar.MINUTE);
+        TimePickerDialog mTimePicker;
+        mTimePicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
+                hour = selectedHour;
+                minute = selectedMinute;
+                timeText.setText( "" + selectedHour + ":" + selectedMinute);
+            }
+        }, chour, cminute, false);
+        mTimePicker.setTitle("Select Time");
+        mTimePicker.show();
+    }
+    private void reportSighting(){
+        locationType = ((EditText) findViewById(R.id.locationType)).getText().toString();
+        address = ((EditText) findViewById(R.id.address)).getText().toString();
+        city = ((EditText) findViewById(R.id.city)).getText().toString();
+        borough = ((EditText) findViewById(R.id.borough)).getText().toString();
+        zipcode = Integer.parseInt(((EditText) findViewById(R.id.zipcode)).getText().toString());
+        System.out.println("Year: " + year + " Month: " + month + " Day: " + day);
+        System.out.println("Hour: " + hour + " Minute: " + minute);
+        System.out.println("Location Type: " + locationType);
+        System.out.println("Address: " + address);
+        System.out.println("City: " + city);
+        System.out.println("Borough: " + borough);
+        System.out.println("Zipcode: " + zipcode);
 
+        Snackbar.make(this.findViewById(android.R.id.content).getRootView(), "Rat Sighting Successfully Reported", Snackbar.LENGTH_LONG)
+              .setAction("Action", null).show();
+    }
 }

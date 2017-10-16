@@ -36,7 +36,7 @@
         </activity>
         <activity
             android:name=".view.impl.RatSightingAdd"
-            android:label="Add Rat Sighting"
+            android:label="Report Rat Sighting"
             android:parentActivityName=".view.impl.RatSightingListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

@@ -1,91 +1,190 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ratsighting_add"
-    style="?android:attr/textAppearanceLarge"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context="org.lulz.jrat.view.impl.RatSightingAdd" android:orientation="vertical">
+    android:fitsSystemWindows="true"
+    tools:context="org.lulz.jrat.view.impl.RatSightingAdd">
 
-    <ScrollView
-        android:id="@+id/login_form"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:weightSum="1">
 
         <LinearLayout
-            android:id="@+id/ratsighting_add_info"
             android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:layout_weight="0.08"></LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:weightSum="1">
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date:"></TextView>
 
-
-                <DatePicker
-                    android:id="@+id/simpleDatePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TimePicker
-                    android:id="@+id/simpleTimePicker"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:timePickerMode="spinner"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
+            <EditText
+                android:id="@+id/date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.56">
-
-                <AutoCompleteTextView
-                    android:id="@+id/email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="prompt_email"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-            </android.support.design.widget.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/admin_user_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/email_sign_in_button"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="177dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="Register"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/email_sign_in_cancel"
-                    style="?android:textAppearanceSmall"
-                    android:layout_width="177dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:text="Cancel"
-                    android:textStyle="bold" />
-            </LinearLayout>
+                android:hint="Date"
+                android:inputType="text"></EditText>
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TIme:"></TextView>
+
+            <EditText
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time"
+                android:inputType="text"></EditText>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location Time:"></TextView>
+
+            <EditText
+                android:id="@+id/locationType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location Type"
+                android:inputType="text"></EditText>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address:"></TextView>
+
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Address"
+                android:inputType="text"></EditText>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="City:"></TextView>
+
+            <EditText
+                android:id="@+id/city"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="City"
+                android:inputType="text"></EditText>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Borough:"></TextView>
+
+            <EditText
+                android:id="@+id/borough"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Borough"
+                android:inputType="text">
+
+            </EditText>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Zip Code:"></TextView>
+
+            <EditText
+                android:id="@+id/zipcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Zip Code"
+                android:inputType="number"></EditText>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1">
+
+
+            <Button
+                android:id="@+id/report_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Report"
+                android:textStyle="bold"
+                android:layout_weight="0.86" />
+
+            <Button
+                android:id="@+id/cancel_button"
+                style="?android:textAppearanceSmall"
+                android:layout_width="187dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Cancel"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
