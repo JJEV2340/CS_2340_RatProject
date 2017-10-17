@@ -166,7 +166,7 @@ public class RatSightingAdd extends AppCompatActivity {
             System.out.println("Exception "+ ex);
         }
         RatSighting rat = new RatSighting(date, locationType, zipcode, address, city, borough);
-       
+
 
         Intent regIntent = new Intent(getApplicationContext(), RatSightingListActivity.class);
         startActivity(regIntent);
