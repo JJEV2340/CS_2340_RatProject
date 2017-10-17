@@ -30,6 +30,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.Query;
 
 import org.lulz.jrat.R;
@@ -167,6 +168,26 @@ public class RatSightingAdd extends AppCompatActivity {
         }
         RatSighting rat = new RatSighting(date, locationType, zipcode, address, city, borough);
 
+        // give rat a test GeoPoint
+        // TODO: once google map is implemented, implement real GeoPoint
+        double lat = Math.random() * 90;
+        double lng = Math.random() * 90;
+        GeoPoint testPoint = new GeoPoint(lat, lng);
+        rat.setLocation(testPoint);
+
+        // generate a unique key for the RatSighting using hashcode
+        int uniqueKey = 17;
+        uniqueKey = 31 * uniqueKey + rat.getDate().hashCode();
+        uniqueKey = 31 * uniqueKey + rat.getLocationType().hashCode();
+        uniqueKey = 31 * uniqueKey + rat.getZip().hashCode();
+        uniqueKey = 31 * uniqueKey + rat.getAddress().hashCode();
+        uniqueKey = 31 * uniqueKey + rat.getCity().hashCode();
+        uniqueKey = 31 * uniqueKey + rat.getBorough().hashCode();
+        uniqueKey = 31 * uniqueKey + rat.getLocation().hashCode();
+
+
+        // add the RatSighting to the database
+        FirebaseFirestore.getInstance().collection("sightings").document(Integer.toString(uniqueKey)).set(rat);
 
         Intent regIntent = new Intent(getApplicationContext(), RatSightingListActivity.class);
         startActivity(regIntent);
