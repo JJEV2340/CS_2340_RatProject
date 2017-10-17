@@ -18,6 +18,14 @@ public class RatSighting implements Parcelable {
     public RatSighting() {
         // Needed for Firebase
     }
+    public RatSighting(Date date, String locationType, String zip, String address, String city, String borough) {
+        this.date = date;
+        this.locationType = locationType;
+        this.zip = zip;
+        this.address = address;
+        this.city = city;
+        this.borough = borough;
+    }
 
     protected RatSighting(Parcel in) {
         date = new Date(in.readLong());

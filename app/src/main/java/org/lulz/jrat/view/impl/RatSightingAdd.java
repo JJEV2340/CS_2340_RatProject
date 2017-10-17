@@ -4,12 +4,14 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -34,7 +36,9 @@ import org.lulz.jrat.R;
 import org.lulz.jrat.model.impl.RatSighting;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * An activity representing a list of RatSightings. This activity
@@ -46,8 +50,8 @@ import java.text.SimpleDateFormat;
  */
 public class RatSightingAdd extends AppCompatActivity {
     private  EditText dateText = null, timeText = null;
-    private int year, month, day, hour, minute, zipcode;
-    private String locationType, address, city, borough;
+    private int year, month, day, hour, minute;
+    private String locationType, address, city, borough, zipcode;
     private DatePicker datePicker;
     private Calendar calendar;
     /**
@@ -147,16 +151,25 @@ public class RatSightingAdd extends AppCompatActivity {
         address = ((EditText) findViewById(R.id.address)).getText().toString();
         city = ((EditText) findViewById(R.id.city)).getText().toString();
         borough = ((EditText) findViewById(R.id.borough)).getText().toString();
-        zipcode = Integer.parseInt(((EditText) findViewById(R.id.zipcode)).getText().toString());
-        System.out.println("Year: " + year + " Month: " + month + " Day: " + day);
-        System.out.println("Hour: " + hour + " Minute: " + minute);
-        System.out.println("Location Type: " + locationType);
-        System.out.println("Address: " + address);
-        System.out.println("City: " + city);
-        System.out.println("Borough: " + borough);
-        System.out.println("Zipcode: " + zipcode);
+        zipcode = ((EditText) findViewById(R.id.zipcode)).getText().toString();
+        String s = "" + month + "/" + day + "/" + year + " "+  hour + ":" + minute;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+        Date date = null;
+        try
+        {
+            date = simpleDateFormat.parse(s);
 
-        Snackbar.make(this.findViewById(android.R.id.content).getRootView(), "Rat Sighting Successfully Reported", Snackbar.LENGTH_LONG)
-              .setAction("Action", null).show();
+            System.out.println("date : "+simpleDateFormat.format(date));
+        }
+        catch (ParseException ex)
+        {
+            System.out.println("Exception "+ ex);
+        }
+        RatSighting rat = new RatSighting(date, locationType, zipcode, address, city, borough);
+       
+
+        Intent regIntent = new Intent(getApplicationContext(), RatSightingListActivity.class);
+        startActivity(regIntent);
+
     }
 }
