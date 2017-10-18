@@ -47,15 +47,11 @@ import java.util.Date;
  * rat sighting
  */
 public class RatSightingAdd extends AppCompatActivity {
-    private  EditText dateText = null, timeText = null;
+    private EditText dateText = null, timeText = null;
     private int year, month, day, hour, minute;
     private String locationType, address, city, borough, zipcode;
     private DatePicker datePicker;
     private Calendar calendar;
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +100,11 @@ public class RatSightingAdd extends AppCompatActivity {
             }
         });
     }
-    /*
-    * When the user clicks on the edit text of date, a datepicker
-    * calendar will popup for the user to enter the date
-    * **/
+
+    /**
+     * When the user clicks on the edit text of date, a datepicker
+     * calendar will popup for the user to enter the date
+     **/
     public void datePicker() {
         // TODO Auto-generated method stub
         //To show current date in the datepicker
@@ -125,17 +122,18 @@ public class RatSightingAdd extends AppCompatActivity {
                 day = selectedday;
                 year = selectedyear;
                 Calendar newDate = Calendar.getInstance();
-                newDate.set(datepicker.getYear(), datepicker.getMonth()-1, datepicker.getDayOfMonth());
+                newDate.set(datepicker.getYear(), datepicker.getMonth() - 1, datepicker.getDayOfMonth());
                 dateText.setText("" + month + "/" + day + "/" + year + "");
             }
         }, year, month, day);
         mDatePicker.setTitle("Select Date");
         mDatePicker.show();
     }
-    /*
-* When the user clicks on the edit text of time, a timepicker
-* clock will popup for the user to enter the date
-* **/
+
+    /**
+     * When the user clicks on the edit text of time, a timepicker
+     * clock will popup for the user to enter the date
+     **/
     public void timePicker() {
         // TODO Auto-generated method stub
         //To show current date in the datepicker
@@ -148,34 +146,33 @@ public class RatSightingAdd extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                 hour = selectedHour;
                 minute = selectedMinute;
-                timeText.setText( "" + selectedHour + ":" + selectedMinute);
+                timeText.setText("" + selectedHour + ":" + selectedMinute);
             }
         }, chour, cminute, false);
         mTimePicker.setTitle("Select Time");
         mTimePicker.show();
     }
-    /*
-    * Takes the filled in edit text values and convert the date into
-    * Date and stores all of it ito the database*/
-    private void reportSighting(){
+
+    /**
+     * Takes the filled in edit text values and convert the date into
+     * Date and stores all of it ito the database
+     **/
+    private void reportSighting() {
         //taking in values
         locationType = ((EditText) findViewById(R.id.locationType)).getText().toString();
         address = ((EditText) findViewById(R.id.address)).getText().toString();
         city = ((EditText) findViewById(R.id.city)).getText().toString();
         borough = ((EditText) findViewById(R.id.borough)).getText().toString();
         zipcode = ((EditText) findViewById(R.id.zipcode)).getText().toString();
-        String s = "" + month + "/" + day + "/" + year + " "+  hour + ":" + minute;
+        String s = "" + month + "/" + day + "/" + year + " " + hour + ":" + minute;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy HH:mm");
         Date date = null;
-        try
-        {
+        try {
             date = simpleDateFormat.parse(s);
 
-            System.out.println("date : "+simpleDateFormat.format(date));
-        }
-        catch (ParseException ex)
-        {
-            System.out.println("Exception "+ ex);
+            System.out.println("date : " + simpleDateFormat.format(date));
+        } catch (ParseException ex) {
+            System.out.println("Exception " + ex);
         }
         RatSighting rat = new RatSighting(date, locationType, zipcode, address, city, borough);
 
