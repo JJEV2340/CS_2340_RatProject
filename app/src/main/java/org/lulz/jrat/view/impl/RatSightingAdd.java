@@ -186,19 +186,8 @@ public class RatSightingAdd extends AppCompatActivity {
         GeoPoint testPoint = new GeoPoint(lat, lng);
         rat.setLocation(testPoint);
 
-        // generate a unique key for the RatSighting using hashcode
-        int uniqueKey = 17;
-        uniqueKey = 31 * uniqueKey + rat.getDate().hashCode();
-        uniqueKey = 31 * uniqueKey + rat.getLocationType().hashCode();
-        uniqueKey = 31 * uniqueKey + rat.getZip().hashCode();
-        uniqueKey = 31 * uniqueKey + rat.getAddress().hashCode();
-        uniqueKey = 31 * uniqueKey + rat.getCity().hashCode();
-        uniqueKey = 31 * uniqueKey + rat.getBorough().hashCode();
-        uniqueKey = 31 * uniqueKey + rat.getLocation().hashCode();
-
-
         // add the RatSighting to the database
-        FirebaseFirestore.getInstance().collection("sightings").document(Integer.toString(uniqueKey)).set(rat);
+        FirebaseFirestore.getInstance().collection("sightings").add(rat);
 
         Intent regIntent = new Intent(getApplicationContext(), RatSightingListActivity.class);
         startActivity(regIntent);
