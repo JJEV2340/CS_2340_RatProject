@@ -42,12 +42,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
- * An activity representing a list of RatSightings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link RatSightingDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
+ * An activity representing adding of Rat Sighting. This activity
+ * allows the user to report a rat sighting and it'll add it to the
+ * rat sighting
  */
 public class RatSightingAdd extends AppCompatActivity {
     private  EditText dateText = null, timeText = null;
@@ -62,6 +59,7 @@ public class RatSightingAdd extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //load scene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ratsighting_add);
 
@@ -69,6 +67,7 @@ public class RatSightingAdd extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
+        //activate report and cancel button
         Button reportBUtton = null;
 
         reportBUtton = (Button) findViewById(R.id.report_button);
@@ -105,6 +104,10 @@ public class RatSightingAdd extends AppCompatActivity {
             }
         });
     }
+    /*
+    * When the user clicks on the edit text of date, a datepicker
+    * calendar will popup for the user to enter the date
+    * **/
     public void datePicker() {
         // TODO Auto-generated method stub
         //To show current date in the datepicker
@@ -129,6 +132,10 @@ public class RatSightingAdd extends AppCompatActivity {
         mDatePicker.setTitle("Select Date");
         mDatePicker.show();
     }
+    /*
+* When the user clicks on the edit text of time, a timepicker
+* clock will popup for the user to enter the date
+* **/
     public void timePicker() {
         // TODO Auto-generated method stub
         //To show current date in the datepicker
@@ -147,7 +154,11 @@ public class RatSightingAdd extends AppCompatActivity {
         mTimePicker.setTitle("Select Time");
         mTimePicker.show();
     }
+    /*
+    * Takes the filled in edit text values and convert the date into
+    * Date and stores all of it ito the database*/
     private void reportSighting(){
+        //taking in values
         locationType = ((EditText) findViewById(R.id.locationType)).getText().toString();
         address = ((EditText) findViewById(R.id.address)).getText().toString();
         city = ((EditText) findViewById(R.id.city)).getText().toString();
