@@ -104,7 +104,7 @@ public class RatSightingAdd extends AppCompatActivity {
     /**
      * When the user clicks on the edit text of date, a datepicker
      * calendar will popup for the user to enter the date
-     **/
+     */
     public void datePicker() {
         // TODO Auto-generated method stub
         //To show current date in the datepicker
@@ -133,7 +133,7 @@ public class RatSightingAdd extends AppCompatActivity {
     /**
      * When the user clicks on the edit text of time, a timepicker
      * clock will popup for the user to enter the date
-     **/
+     */
     public void timePicker() {
         // TODO Auto-generated method stub
         //To show current date in the datepicker
@@ -156,7 +156,7 @@ public class RatSightingAdd extends AppCompatActivity {
     /**
      * Takes the filled in edit text values and convert the date into
      * Date and stores all of it ito the database
-     **/
+     */
     private void reportSighting() {
         //taking in values
         locationType = ((EditText) findViewById(R.id.locationType)).getText().toString();
