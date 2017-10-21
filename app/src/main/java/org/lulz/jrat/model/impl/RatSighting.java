@@ -18,6 +18,7 @@ public class RatSighting implements Parcelable {
     public RatSighting() {
         // Needed for Firebase
     }
+
     public RatSighting(Date date, String locationType, String zip, String address, String city, String borough) {
         this.date = date;
         this.locationType = locationType;
@@ -112,9 +113,18 @@ public class RatSighting implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeLong(date.getTime());
-        parcel.writeDouble(location.getLatitude());
-        parcel.writeDouble(location.getLongitude());
+        if (date == null) {
+            parcel.writeLong(0);
+        } else {
+            parcel.writeLong(date.getTime());
+        }
+        if (location == null) {
+            parcel.writeDouble(0);
+            parcel.writeDouble(0);
+        } else {
+            parcel.writeDouble(location.getLatitude());
+            parcel.writeDouble(location.getLongitude());
+        }
         parcel.writeString(locationType);
         parcel.writeString(zip);
         parcel.writeString(address);

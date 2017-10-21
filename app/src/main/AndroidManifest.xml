@@ -35,13 +35,13 @@
                     android:value="org.lulz.jrat.view.impl.RatSightingListActivity"/>
         </activity>
         <activity
-            android:name=".view.impl.RatSightingAdd"
-            android:label="Report Rat Sighting"
-            android:parentActivityName=".view.impl.RatSightingListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+                android:name=".view.impl.RatSightingAddActivity"
+                android:label="Report Rat Sighting"
+                android:parentActivityName=".view.impl.RatSightingListActivity"
+                android:theme="@style/AppTheme.NoActionBar">
             <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.lulz.jrat.view.impl.RatSightingListActivity"/>
+                    android:name="android.support.PARENT_ACTIVITY"
+                    android:value="org.lulz.jrat.view.impl.RatSightingListActivity"/>
         </activity>
     </application>
 

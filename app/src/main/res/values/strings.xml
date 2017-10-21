@@ -12,6 +12,8 @@
 
     <string name="title_ratsighting_list">Rat Sightings</string>
     <string name="title_ratsighting_detail">Rat Sighting Detail</string>
+    <string name="title_pick_date">Select Date</string>
+    <string name="title_pick_time">Select Time</string>
 
     <string name="label_address">Address</string>
     <string name="label_date">Date</string>
@@ -20,4 +22,8 @@
     <string name="label_borough">Borough</string>
     <string name="label_zip">Zip Code</string>
     <string name="label_location">Location</string>
+
+    <string name="action_report">Report</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_delete">Delete</string>
 </resources>

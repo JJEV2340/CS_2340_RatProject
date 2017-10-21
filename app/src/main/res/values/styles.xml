@@ -23,4 +23,10 @@
     <style name="WelcomeScreenLogoStyle">
         <item name="android:layout_marginBottom">20dp</item>
     </style>
+
+    <style name="FakeEditText">
+        <item name="android:textColor">?attr/editTextColor</item>
+        <item name="android:background">?attr/editTextBackground</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+    </style>
 </resources>

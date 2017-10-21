@@ -1,190 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context="org.lulz.jrat.view.impl.RatSightingAdd">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:padding="16dp"
+              android:orientation="vertical"
+              android:gravity="center_horizontal">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+    <TextView
+            android:id="@+id/labelDate"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </android.support.design.widget.AppBarLayout>
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_date"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:weightSum="1">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:orientation="horizontal"
-            android:layout_weight="0.08"></LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Date:"></TextView>
-
-            <EditText
-                android:id="@+id/date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Date"
-                android:inputType="text"></EditText>
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TIme:"></TextView>
-
-            <EditText
-                android:id="@+id/time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Time"
-                android:inputType="text"></EditText>
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Location Type:"></TextView>
-
-            <EditText
-                android:id="@+id/locationType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Location Type"
-                android:inputType="text"></EditText>
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Address:"></TextView>
-
-            <EditText
-                android:id="@+id/address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Address"
-                android:inputType="text"></EditText>
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="City:"></TextView>
-
-            <EditText
-                android:id="@+id/city"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="City"
-                android:inputType="text"></EditText>
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Borough:"></TextView>
-
-            <EditText
-                android:id="@+id/borough"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Borough"
-                android:inputType="text">
-
-            </EditText>
-        </LinearLayout>
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Zip Code:"></TextView>
-
-            <EditText
-                android:id="@+id/zipcode"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Zip Code"
-                android:inputType="number"></EditText>
-        </LinearLayout>
-        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1">
+            android:orientation="horizontal">
 
-
-            <Button
-                android:id="@+id/report_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="186dp"
+        <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Report"
-                android:textStyle="bold"
-                android:layout_weight="0.86" />
-
-            <Button
-                android:id="@+id/cancel_button"
-                style="?android:textAppearanceSmall"
-                android:layout_width="187dp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                style="@style/FakeEditText"/>
+        <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Cancel"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:layout_weight="1"
+                android:textAlignment="center"
+                style="@style/FakeEditText"/>
     </LinearLayout>
-</android.support.design.widget.CoordinatorLayout>
+
+    <TextView
+            android:id="@+id/labelLocationType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_location_type"/>
+
+    <EditText
+            android:id="@+id/editTextLocationType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+    <TextView
+            android:id="@+id/labelAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_address"/>
+
+    <EditText
+            android:id="@+id/editTextAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+    <TextView
+            android:id="@+id/labelCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_city"/>
+
+    <EditText
+            android:id="@+id/editTextCity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+    <TextView
+            android:id="@+id/labelBorough"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_borough"/>
+
+    <EditText
+            android:id="@+id/editTextBorough"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+    <TextView
+            android:id="@+id/labelZip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+            android:text="@string/label_zip"/>
+
+    <EditText
+            android:id="@+id/editTextZip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <Button
+                android:id="@+id/report_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/action_report"
+                android:layout_weight="1"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+
+        <Button
+                android:id="@+id/cancel_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/action_cancel"
+                android:layout_weight="1"
+                style="@style/Widget.AppCompat.Button.Colored"/>
+    </LinearLayout>
+</LinearLayout>
