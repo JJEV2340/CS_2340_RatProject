@@ -10,8 +10,10 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="unknown_error">An unknown error occurred</string>
 
-    <string name="title_ratsighting_list">Rat Sightings</string>
-    <string name="title_ratsighting_detail">Rat Sighting Detail</string>
+    <string name="title_map">Rat Sighting Map</string>
+    <string name="title_list">Rat Sighting List</string>
+    <string name="title_report">Rat Sighting Report</string>
+    <string name="title_detail">Rat Sighting Detail</string>
     <string name="title_pick_date">Select Date</string>
     <string name="title_pick_time">Select Time</string>
 
@@ -23,7 +25,14 @@
     <string name="label_zip">Zip Code</string>
     <string name="label_location">Location</string>
 
-    <string name="action_report">Report</string>
+    <string name="action_report">Add Report</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_delete">Delete</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="nav_map">Map</string>
+    <string name="nav_list">List</string>
+    <string name="nav_report">Report</string>
 </resources>

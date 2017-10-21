@@ -16,9 +16,6 @@ import java.text.SimpleDateFormat;
 
 /**
  * A fragment representing a single RatSighting detail screen.
- * This fragment is either contained in a {@link RatSightingListActivity}
- * in two-pane mode (on tablets) or a {@link RatSightingDetailActivity}
- * on handsets.
  */
 public class RatSightingDetailFragment extends Fragment {
     private static final DateFormat DATE_FORMAT = SimpleDateFormat.getDateTimeInstance();

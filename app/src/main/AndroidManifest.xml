@@ -21,27 +21,26 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".view.impl.RatSightingListActivity"
-                android:label="@string/title_ratsighting_list"
-                android:theme="@style/AppTheme.NoActionBar">
+            android:name=".view.impl.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
                 android:name=".view.impl.RatSightingDetailActivity"
-                android:label="@string/title_ratsighting_detail"
-                android:parentActivityName=".view.impl.RatSightingListActivity"
+                android:label="@string/title_detail"
+                android:parentActivityName=".view.impl.MainActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="org.lulz.jrat.view.impl.RatSightingListActivity"/>
+                    android:value="org.lulz.jrat.view.impl.MainActivity"/>
         </activity>
         <activity
                 android:name=".view.impl.RatSightingAddActivity"
                 android:label="Report Rat Sighting"
-                android:parentActivityName=".view.impl.RatSightingListActivity"
+                android:parentActivityName=".view.impl.MainActivity"
                 android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                     android:name="android.support.PARENT_ACTIVITY"
-                    android:value="org.lulz.jrat.view.impl.RatSightingListActivity"/>
+                    android:value="org.lulz.jrat.view.impl.MainActivity"/>
         </activity>
     </application>
 
