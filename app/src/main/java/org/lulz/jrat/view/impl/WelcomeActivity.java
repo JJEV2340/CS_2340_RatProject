@@ -104,7 +104,7 @@ public class WelcomeActivity extends AppCompatActivity {
      * Displays the main activity after logging in.
      */
     private void loginSuccess() {
-        startActivity(new Intent(WelcomeActivity.this, RatSightingListActivity.class));
+        startActivity(new Intent(WelcomeActivity.this, MainActivity.class));
         finish();
     }
 
