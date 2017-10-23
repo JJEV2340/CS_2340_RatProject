@@ -80,7 +80,7 @@ public class RatSightingAdd extends AppCompatActivity {
         });
         Button cancelButton = null;
 
-        cancelButton = (Button) findViewById(R.id.cancel_button);
+        cancelButton = (Button) findViewById(R.id.cancel_button);do
         cancelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
