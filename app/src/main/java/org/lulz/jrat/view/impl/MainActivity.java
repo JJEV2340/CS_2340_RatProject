@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.nav_map:
                 fragment = new RatSightingMapFragment();
+                Bundle arguments = getIntent().getBundleExtra("DateBundle");
+                fragment.setArguments(arguments);
                 setTitle(R.string.title_map);
                 break;
             case R.id.nav_list:

@@ -41,10 +41,16 @@ import butterknife.OnClick;
 public class RatSightingMapFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private long startLong;
+    private long endLong;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (RatSightingMapFilterActivity.hitSearch) {
+            startLong = getArguments().getLong("startDate");
+            endLong = getArguments().getLong("endDate");
+        }
     }
 
     @Override
@@ -99,24 +105,30 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
         // Places a marker for every data in the database
         // TODO: implement a way to restrict the marker placement using date.after()
         // As of now, each marker only displays each data's key
-        FirebaseFirestore.getInstance()
-                .collection("sightings")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (DocumentSnapshot document : task.getResult()) {
-                                if (document.get("location") != null) {
-                                    LatLng singleMaker = new LatLng(document.getGeoPoint("location").getLatitude(),
-                                            document.getGeoPoint("location").getLongitude());
-                                    mMap.addMarker(new MarkerOptions().position(singleMaker).title(document.getId()));
+        if (RatSightingMapFilterActivity.hitSearch) {
+            FirebaseFirestore.getInstance()
+                    .collection("sightings")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (DocumentSnapshot document : task.getResult()) {
+                                    if (document.get("location") != null
+                                            && document.get("date") != null) {
+                                        long docDateLong = ((Date) document.get("date")).getTime();
+                                        if (docDateLong >= startLong && docDateLong <= endLong) {
+                                            LatLng singleMaker = new LatLng(document.getGeoPoint("location").getLatitude(),
+                                                    document.getGeoPoint("location").getLongitude());
+                                            mMap.addMarker(new MarkerOptions().position(singleMaker).title(document.getId()));
+                                        }
+                                    }
                                 }
+                            } else {
+                                // Log.d(TAG, "Error getting documents: ", task.getException());
                             }
-                        } else {
-                            // Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    }
-                });
+                    });
+        }
     }
 }

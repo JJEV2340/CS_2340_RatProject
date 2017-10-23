@@ -43,18 +43,22 @@ import static java.util.Calendar.YEAR;
  */
 
 public class RatSightingMapFilterActivity extends AppCompatActivity {
-    @BindView(R.id.filterDate)
-    TextView filterDate;
-    @BindView(R.id.filterTime)
-    TextView filterTime;
+    @BindView(R.id.filterStartDate)
+    TextView startDate;
+    @BindView(R.id.filterStartTime)
+    TextView startTime;
+    @BindView(R.id.filterEndDate)
+    TextView endDate;
+    @BindView(R.id.filterEndTime)
+    TextView endTime;
 
-    private Calendar calendar;
-    public static boolean active = false;
+    private Calendar startCalendar;
+    private Calendar endCalendar;
+    public static boolean hitSearch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        active = true;
         setContentView(R.layout.activity_map_filter);
         ButterKnife.bind(this);
 
@@ -62,7 +66,8 @@ public class RatSightingMapFilterActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // initialize dates
-        calendar = Calendar.getInstance();
+        startCalendar = Calendar.getInstance();
+        endCalendar = Calendar.getInstance();
         updateDate();
     }
 
@@ -71,25 +76,31 @@ public class RatSightingMapFilterActivity extends AppCompatActivity {
      * backing Calendar object
      */
     private void updateDate() {
-        Date datetime = calendar.getTime();
-        String date = DateFormat.getDateInstance().format(datetime);
-        String time = DateFormat.getTimeInstance().format(datetime);
-        filterDate.setText(date);
-        filterTime.setText(time);
+        Date datetimeStart = startCalendar.getTime();
+        String dateStart = DateFormat.getDateInstance().format(datetimeStart);
+        String timeStart = DateFormat.getTimeInstance().format(datetimeStart);
+        startDate.setText(dateStart);
+        startTime.setText(timeStart);
+        Date datetimeEnd = endCalendar.getTime();
+        String dateEnd = DateFormat.getDateInstance().format(datetimeEnd);
+        String timeEnd = DateFormat.getTimeInstance().format(datetimeEnd);
+        endDate.setText(dateEnd);
+        endTime.setText(timeEnd);
     }
 
+    // Start time
     /**
      * When the user clicks on the edit text of date, a datepicker
      * calendar will popup for the user to enter the date
      */
-    @OnClick(R.id.filterDate)
-    void onDateClicked() {
+    @OnClick(R.id.filterStartDate)
+    void onStartDateClicked() {
         DatePickerDialog mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker picker, int year, int month, int day) {
-                calendar.set(year, month, day);
+                startCalendar.set(year, month, day);
                 updateDate();
             }
-        }, calendar.get(YEAR), calendar.get(MONTH), calendar.get(DAY_OF_MONTH));
+        }, startCalendar.get(YEAR), startCalendar.get(MONTH), startCalendar.get(DAY_OF_MONTH));
         mDatePicker.setTitle(R.string.title_pick_date);
         mDatePicker.show();
     }
@@ -98,17 +109,53 @@ public class RatSightingMapFilterActivity extends AppCompatActivity {
      * When the user clicks on the edit text of time, a timepicker
      * clock will popup for the user to enter the time
      */
-    @OnClick(R.id.filterTime)
-    void onTimeClicked() {
+    @OnClick(R.id.filterStartTime)
+    void onStartTimeClicked() {
         TimePickerDialog mTimePicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker picker, int hour, int minute) {
-                calendar.set(HOUR_OF_DAY, hour);
-                calendar.set(MINUTE, minute);
-                calendar.set(SECOND, 0);
+                startCalendar.set(HOUR_OF_DAY, hour);
+                startCalendar.set(MINUTE, minute);
+                startCalendar.set(SECOND, 0);
                 updateDate();
             }
-        }, calendar.get(HOUR_OF_DAY), calendar.get(MINUTE), false);
+        }, startCalendar.get(HOUR_OF_DAY), startCalendar.get(MINUTE), false);
+        mTimePicker.setTitle(R.string.title_pick_time);
+        mTimePicker.show();
+    }
+
+    //End Time
+    /**
+     * When the user clicks on the edit text of date, a datepicker
+     * calendar will popup for the user to enter the date
+     */
+    @OnClick(R.id.filterEndDate)
+    void onEndDateClicked() {
+        DatePickerDialog mDatePicker = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker picker, int year, int month, int day) {
+                endCalendar.set(year, month, day);
+                updateDate();
+            }
+        }, endCalendar.get(YEAR), endCalendar.get(MONTH), endCalendar.get(DAY_OF_MONTH));
+        mDatePicker.setTitle(R.string.title_pick_date);
+        mDatePicker.show();
+    }
+
+    /**
+     * When the user clicks on the edit text of time, a timepicker
+     * clock will popup for the user to enter the time
+     */
+    @OnClick(R.id.filterEndTime)
+    void onEndTimeClicked() {
+        TimePickerDialog mTimePicker = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker picker, int hour, int minute) {
+                endCalendar.set(HOUR_OF_DAY, hour);
+                endCalendar.set(MINUTE, minute);
+                endCalendar.set(SECOND, 0);
+                updateDate();
+            }
+        }, endCalendar.get(HOUR_OF_DAY), endCalendar.get(MINUTE), false);
         mTimePicker.setTitle(R.string.title_pick_time);
         mTimePicker.show();
     }
@@ -117,6 +164,14 @@ public class RatSightingMapFilterActivity extends AppCompatActivity {
     // TODO: which then will pass the date to RatSightingMapFragment as arguments
     @OnClick(R.id.searchButton)
     public void onClick(View view) {
+        hitSearch = true;
+        Bundle arguments = new Bundle();
+        arguments.putLong("startDate", startCalendar.getTimeInMillis());
+        arguments.putLong("endDate", endCalendar.getTimeInMillis());
+
+        Intent searchIntent = new Intent(this, MainActivity.class);
+        searchIntent.putExtra("DateBundle", arguments);
+        startActivity(searchIntent);
     }
 
     @Override
