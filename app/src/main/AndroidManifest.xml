@@ -29,7 +29,7 @@
         </activity>
         <activity
             android:name=".view.impl.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".view.impl.RatSightingDetailActivity"
             android:label="@string/title_detail"
@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name=".view.impl.RatSightingAddActivity"
-            android:label="Report Rat Sighting"
+            android:label="@string/title_add"
             android:parentActivityName=".view.impl.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
