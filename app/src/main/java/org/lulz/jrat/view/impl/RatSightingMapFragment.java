@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,37 +18,28 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-
+import com.google.firebase.firestore.*;
 import org.lulz.jrat.R;
+import org.lulz.jrat.model.impl.RatSighting;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import butterknife.OnClick;
 
 /**
  * RatSightingMapFragment
  * Fragment class that controls the google map
  */
 public class RatSightingMapFragment extends Fragment implements OnMapReadyCallback {
-
+    private static final String TAG = "Map Fragment";
     private GoogleMap mMap;
-    private long startLong;
-    private long endLong;
+    private Date startDate;
+    private Date endDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (RatSightingMapFilterActivity.hitSearch) {
-            startLong = getArguments().getLong("startDate");
-            endLong = getArguments().getLong("endDate");
+            startDate = new Date(getArguments().getLong("startDate"));
+            endDate = new Date(getArguments().getLong("endDate"));
         }
     }
 
@@ -91,13 +81,6 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        /*
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-33, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-        */
-
         // Center the map on NYC
         LatLng newyork = new LatLng(40.7831, -73.9712);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newyork, 10.0f));
@@ -106,29 +89,29 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
         // TODO: implement a way to restrict the marker placement using date.after()
         // As of now, each marker only displays each data's key
         if (RatSightingMapFilterActivity.hitSearch) {
-            FirebaseFirestore.getInstance()
+            Query query = FirebaseFirestore.getInstance()
                     .collection("sightings")
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                for (DocumentSnapshot document : task.getResult()) {
-                                    if (document.get("location") != null
-                                            && document.get("date") != null) {
-                                        long docDateLong = ((Date) document.get("date")).getTime();
-                                        if (docDateLong >= startLong && docDateLong <= endLong) {
-                                            LatLng singleMaker = new LatLng(document.getGeoPoint("location").getLatitude(),
-                                                    document.getGeoPoint("location").getLongitude());
-                                            mMap.addMarker(new MarkerOptions().position(singleMaker).title(document.getId()));
-                                        }
-                                    }
-                                }
-                            } else {
-                                // Log.d(TAG, "Error getting documents: ", task.getException());
+                    .whereGreaterThanOrEqualTo("date", startDate)
+                    .whereLessThanOrEqualTo("date", endDate)
+                    .orderBy("date", Query.Direction.DESCENDING)
+                    .limit(500);
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (DocumentSnapshot document : task.getResult()) {
+                            RatSighting sighting = document.toObject(RatSighting.class);
+                            GeoPoint geoPoint = sighting.getLocation();
+                            if (geoPoint != null) {
+                                LatLng singleMaker = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+                                mMap.addMarker(new MarkerOptions().position(singleMaker).title(document.getId()));
                             }
                         }
-                    });
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                }
+            });
         }
     }
 }
