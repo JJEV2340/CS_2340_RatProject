@@ -85,8 +85,7 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
         LatLng newyork = new LatLng(40.7831, -73.9712);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newyork, 10.0f));
 
-        // Places a marker for every data in the database
-        // TODO: implement a way to restrict the marker placement using date.after()
+        // Places a marker for filtered data in the database
         // As of now, each marker only displays each data's key
         if (RatSightingMapFilterActivity.hitSearch) {
             Query query = FirebaseFirestore.getInstance()

@@ -160,8 +160,10 @@ public class RatSightingMapFilterActivity extends AppCompatActivity {
         mTimePicker.show();
     }
 
-    // TODO: On click of search button, pass on user inputted date to MainAciticty,
-    // TODO: which then will pass the date to RatSightingMapFragment as arguments
+    /**
+     * On click of search button, pass on user inputted date to MainAciticty,
+     * which then will pass the date to RatSightingMapFragment as arguments
+     */
     @OnClick(R.id.searchButton)
     public void onClick(View view) {
         hitSearch = true;
