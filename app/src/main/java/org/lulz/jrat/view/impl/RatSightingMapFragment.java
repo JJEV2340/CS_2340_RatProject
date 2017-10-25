@@ -1,19 +1,15 @@
 package org.lulz.jrat.view.impl;
 
-import android.content.Context;
-import android.content.Intent;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
+import android.view.*;
+import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,25 +18,24 @@ import com.google.firebase.firestore.*;
 import org.lulz.jrat.R;
 import org.lulz.jrat.model.impl.RatSighting;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
  * RatSightingMapFragment
  * Fragment class that controls the google map
  */
-public class RatSightingMapFragment extends Fragment implements OnMapReadyCallback {
+public class RatSightingMapFragment extends Fragment implements OnMapReadyCallback, DatePickerDialog.OnDateSetListener {
     private static final String TAG = "Map Fragment";
     private GoogleMap mMap;
+    private boolean filtered;
     private Date startDate;
     private Date endDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (RatSightingMapFilterActivity.hitSearch) {
-            startDate = new Date(getArguments().getLong("startDate"));
-            endDate = new Date(getArguments().getLong("endDate"));
-        }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -48,7 +43,7 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.ratsighting_map, container, false);
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager()
+        MapFragment mapFragment = (MapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         return view;
@@ -57,15 +52,6 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button fab = (Button) view.findViewById(R.id.filteroption);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Context context = view.getContext();
-                Intent intent = new Intent(context, RatSightingMapFilterActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     /**
@@ -82,35 +68,75 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
         mMap = googleMap;
 
         // Center the map on NYC
-        LatLng newyork = new LatLng(40.7831, -73.9712);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newyork, 10.0f));
+        LatLng newYork = new LatLng(40.7831, -73.9712);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(newYork, 10.0f));
 
         // Places a marker for filtered data in the database
         // As of now, each marker only displays each data's key
-        if (RatSightingMapFilterActivity.hitSearch) {
-            Query query = FirebaseFirestore.getInstance()
-                    .collection("sightings")
-                    .whereGreaterThanOrEqualTo("date", startDate)
-                    .whereLessThanOrEqualTo("date", endDate)
-                    .orderBy("date", Query.Direction.DESCENDING)
-                    .limit(500);
-            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (DocumentSnapshot document : task.getResult()) {
-                            RatSighting sighting = document.toObject(RatSighting.class);
-                            GeoPoint geoPoint = sighting.getLocation();
-                            if (geoPoint != null) {
-                                LatLng singleMaker = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
-                                mMap.addMarker(new MarkerOptions().position(singleMaker).title(document.getId()));
-                            }
-                        }
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
-                    }
-                }
-            });
+        Query query = FirebaseFirestore.getInstance()
+                .collection("sightings")
+                .orderBy("date", Query.Direction.DESCENDING)
+                .limit(100);
+        /*ListenerRegistration registration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+            }
+        });
+        registration.remove();*/
+        if (filtered) {
+            query = query.whereGreaterThanOrEqualTo("date", startDate)
+                    .whereLessThanOrEqualTo("date", endDate);
         }
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot document : task.getResult()) {
+                        RatSighting sighting = document.toObject(RatSighting.class);
+                        GeoPoint geoPoint = sighting.getLocation();
+                        if (geoPoint != null) {
+                            LatLng singleMaker = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+                            mMap.addMarker(new MarkerOptions().position(singleMaker).title(document.getId()));
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.menu_filter, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.action_filter) {
+            Calendar now = Calendar.getInstance();
+            DatePickerDialog dpd = DatePickerDialog.newInstance(
+                    this,
+                    now.get(Calendar.YEAR),
+                    now.get(Calendar.MONTH),
+                    now.get(Calendar.DAY_OF_MONTH)
+            );
+            dpd.show(getFragmentManager(), "Date Range Picker");
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+        filtered = true;
     }
 }

@@ -8,6 +8,9 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -22,10 +25,14 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 420; // wake and bake
     private FirebaseAuth mAuth;
 
+    @BindView(android.R.id.content)
+    View rootView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+        ButterKnife.bind(this);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -72,7 +79,8 @@ public class WelcomeActivity extends AppCompatActivity {
      *
      * @param view the button
      */
-    public void onLoginPressed(View view) {
+    @OnClick(R.id.button_sign_in)
+    void onLoginPressed(View view) {
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -86,11 +94,12 @@ public class WelcomeActivity extends AppCompatActivity {
      *
      * @param view the button
      */
-    public void onLoginGuestPressed(final View view) {
+    @OnClick(R.id.button_sign_in_guest)
+    void onLoginGuestPressed(final View view) {
         mAuth.signInAnonymously().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Snackbar.make(view, "Unable to sign in anonymously.", Snackbar.LENGTH_SHORT).show();
+                showSnackbar(R.string.anonymous_sign_in_failed);
             }
         }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
@@ -110,6 +119,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     @MainThread
     private void showSnackbar(@StringRes int stringRes) {
-        Snackbar.make(findViewById(android.R.id.content), stringRes, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(rootView, stringRes, Snackbar.LENGTH_SHORT).show();
     }
 }

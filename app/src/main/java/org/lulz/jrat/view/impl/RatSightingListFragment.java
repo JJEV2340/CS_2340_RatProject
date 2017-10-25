@@ -1,14 +1,15 @@
 package org.lulz.jrat.view.impl;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -25,11 +26,24 @@ import java.text.SimpleDateFormat;
  * A fragment representing a list of RatSightings.
  */
 public class RatSightingListFragment extends Fragment {
+    private FirestoreRecyclerAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapter.stopListening();
     }
 
     @Override
@@ -45,7 +59,7 @@ public class RatSightingListFragment extends Fragment {
         return rootView;
     }
 
-    @OnClick(R.id.fab)
+    @OnClick(R.id.button_add)
     void onAddClicked() {
         Intent regIntent = new Intent(getContext(), RatSightingAddActivity.class);
         startActivity(regIntent);
@@ -58,14 +72,13 @@ public class RatSightingListFragment extends Fragment {
         Query query = FirebaseFirestore.getInstance()
                 .collection("sightings")
                 .orderBy("date", Query.Direction.DESCENDING)
-                .limit(500);
+                .limit(100);
 
         FirestoreRecyclerOptions<RatSighting> options = new FirestoreRecyclerOptions.Builder<RatSighting>()
                 .setQuery(query, RatSighting.class)
-                .setLifecycleOwner(this)
                 .build();
 
-        FirestoreRecyclerAdapter adapter = new FirestoreRecyclerAdapter<RatSighting, RatSightingHolder>(options) {
+        adapter = new FirestoreRecyclerAdapter<RatSighting, RatSightingHolder>(options) {
             @Override
             public void onBindViewHolder(final RatSightingHolder holder, int position, final RatSighting model) {
                 final String id = getSnapshots().getSnapshot(position).getId();
@@ -101,5 +114,21 @@ public class RatSightingListFragment extends Fragment {
             }
         };
         recyclerView.setAdapter(adapter);
+    }
+
+    /**
+     * Rat Sighting view holder for RecyclerView
+     */
+    private class RatSightingHolder extends RecyclerView.ViewHolder {
+        private View view;
+        private TextView dateView;
+        private TextView addressView;
+
+        private RatSightingHolder(View itemView) {
+            super(itemView);
+            view = itemView;
+            dateView = itemView.findViewById(R.id.id);
+            addressView = itemView.findViewById(R.id.content);
+        }
     }
 }

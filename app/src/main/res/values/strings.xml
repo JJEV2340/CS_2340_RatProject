@@ -6,6 +6,7 @@
     <string name="anonymous_user">Anonymous User</string>
 
     <string name="unknown_sign_in_response">Unknown response from AuthUI sign-in</string>
+    <string name="anonymous_sign_in_failed">Unable to sign in anonymously</string>
     <string name="sign_in_cancelled">Sign in cancelled</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="unknown_error">An unknown error occurred</string>
@@ -26,6 +27,7 @@
     <string name="label_zip">Zip Code</string>
     <string name="label_location">Location</string>
 
+    <string name="action_filter">Filter</string>
     <string name="action_report">Add Sighting</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_delete">Delete</string>
