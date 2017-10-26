@@ -29,13 +29,17 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
     private static final String TAG = "Map Fragment";
     private GoogleMap mMap;
     private boolean filtered;
-    private Date startDate;
-    private Date endDate;
+    private Calendar startDate;
+    private Calendar endDate;
+    private ListenerRegistration registration;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        
+        startDate = Calendar.getInstance();
+        endDate = Calendar.getInstance();
     }
 
     @Override
@@ -50,8 +54,13 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
     }
 
     /**
@@ -77,16 +86,16 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
                 .collection("sightings")
                 .orderBy("date", Query.Direction.DESCENDING)
                 .limit(100);
-        /*ListenerRegistration registration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        if (filtered) {
+            query = query.whereGreaterThanOrEqualTo("date", startDate.getTime())
+                    .whereLessThanOrEqualTo("date", endDate.getTime());
+        }
+        registration = query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
             }
         });
-        registration.remove();*/
-        if (filtered) {
-            query = query.whereGreaterThanOrEqualTo("date", startDate)
-                    .whereLessThanOrEqualTo("date", endDate);
-        }
+        registration.remove();
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -107,6 +116,10 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
         });
     }
 
+    private void updateMap() {
+
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -121,12 +134,14 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
         int id = item.getItemId();
 
         if (id == R.id.action_filter) {
-            Calendar now = Calendar.getInstance();
             DatePickerDialog dpd = DatePickerDialog.newInstance(
                     this,
-                    now.get(Calendar.YEAR),
-                    now.get(Calendar.MONTH),
-                    now.get(Calendar.DAY_OF_MONTH)
+                    startDate.get(Calendar.YEAR),
+                    startDate.get(Calendar.MONTH),
+                    startDate.get(Calendar.DAY_OF_MONTH),
+                    endDate.get(Calendar.YEAR),
+                    endDate.get(Calendar.MONTH),
+                    endDate.get(Calendar.DAY_OF_MONTH)
             );
             dpd.show(getFragmentManager(), "Date Range Picker");
             return true;
@@ -138,5 +153,7 @@ public class RatSightingMapFragment extends Fragment implements OnMapReadyCallba
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
         filtered = true;
+        startDate.set(year, monthOfYear, dayOfMonth);
+        endDate.set(yearEnd, monthOfYearEnd, dayOfMonthEnd);
     }
 }
