@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity
         MenuItem mapItem = navigationView.getMenu().findItem(R.id.nav_map);
         mapItem.setChecked(true);
         onNavigationItemSelected(mapItem);
+
     }
 
     @Override
@@ -96,7 +97,10 @@ public class MainActivity extends AppCompatActivity
                 setTitle(R.string.title_list);
                 break;
             case R.id.nav_report:
-                // TODO: create report fragment
+                fragment = new RatSightingReportFragment();
+                Bundle argument = getIntent().getBundleExtra("ReportBundle");
+                fragment.setArguments(argument);
+                setTitle("Rat Sighting Report");
                 break;
         }
 
