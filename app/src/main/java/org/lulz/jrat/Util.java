@@ -41,7 +41,7 @@ public class Util {
      * @param password password user entered during registration
      * @return true if valid
      */
-    public boolean isPasswordValid(String password) {
+    public static boolean isPasswordValid(String password) {
 
         boolean validity = true;
 
