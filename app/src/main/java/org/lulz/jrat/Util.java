@@ -15,9 +15,13 @@ public class Util {
      * @param username username to be checked
      * @return true if valid
      */
-    public boolean isuUsernameValid(String username) {
+    public static boolean isUsernameValid(String username) {
 
         boolean validity = true;
+
+        if (username == null) {
+            return false;
+        }
 
         // check if the username contains any special symbol
         for (int i = 0; i < symbols.length; i++) {
@@ -38,7 +42,12 @@ public class Util {
      * @return true if valid
      */
     public boolean isPasswordValid(String password) {
+
         boolean validity = true;
+
+        if (password == null) {
+            return false;
+        }
 
         // check if the password contains any special symbol
         for (int i = 0; i < symbols.length; i++) {
@@ -65,6 +74,11 @@ public class Util {
      */
     public boolean isEmailValid(String email) {
         boolean validity = true;
+
+        if (email == null) {
+            return false;
+        }
+
         if (!email.contains("@") || email.contains(" ")) {
             validity = false;
         }
