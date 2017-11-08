@@ -12,13 +12,13 @@ import static org.junit.Assert.assertEquals;
 
 public class UtilUsernameTest {
 
-    private String[] usernames;
+    private String[] usernames = new String[6];
 
     @Test
     public void testIsUsernameValid() {
         usernames[1] = "HelloWorld";
         usernames[2] = "Demacia@";
-        usernames[3] = "1234";
+        usernames[3] = "12345";
         usernames[4] = "Hello World";
         usernames[5] = "TimeIsRunningOut";
         boolean nullcase = Util.isUsernameValid(usernames[0]);
