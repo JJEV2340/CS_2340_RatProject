@@ -1,6 +1,7 @@
 package org.lulz.jrat.view.impl;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
@@ -8,6 +9,8 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.felipecsl.gifimageview.library.GifImageView;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ErrorCodes;
 import com.firebase.ui.auth.IdpResponse;
@@ -18,14 +21,33 @@ import com.google.firebase.auth.FirebaseAuth;
 import org.lulz.jrat.BuildConfig;
 import org.lulz.jrat.R;
 
-public class WelcomeActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import io.grpc.internal.IoUtils;
+
+public class WelcomeActivity extends AppCompatActivity{
     private static final int RC_SIGN_IN = 420; // wake and bake
     private FirebaseAuth mAuth;
-
+    private GifImageView gif;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
+
+        gif = (GifImageView) findViewById(R.id.gifImage);
+
+        try {
+            InputStream inputStream = getAssets().open("hamster.gif");
+            byte[] bytes = IoUtils.toByteArray(inputStream);
+            gif.setBytes(bytes);
+            gif.startAnimation();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -34,7 +56,35 @@ public class WelcomeActivity extends AppCompatActivity {
             loginSuccess();
         }
     }
-
+    /*class RetrieveByteArray extends AsyncTask<String, Void, byte[]> {
+        @Override
+        protected byte[] doInBackground(String... strings) {
+            try {
+                URL url = new URL(strings[0]);
+                HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
+                if(urlConnection.getResponseCode() == 200) {
+                int nRead;
+                byte[] data = new byte[10240];
+                while((nRead==in.read(data, 0, data.length))!= -1)
+                {
+                    buffer.write(data, 0, nRead);
+                }
+                buffer.flush();
+                return buffer.toByteArray();
+                }
+            }catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch(IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(byte[] bytes) {
+            super.onPostExecute(bytes);
+            gif.setBytes(bytes);
+        }
+    }*/
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
