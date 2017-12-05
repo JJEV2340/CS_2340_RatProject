@@ -7,17 +7,22 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:orientation="vertical"
-        android:background="@color/colorPrimaryDark"
+        android:background="#9A73FF"
         tools:context="org.lulz.jrat.view.impl.WelcomeActivity">
 
-    <ImageView
-            android:layout_width="200dp"
+    <com.felipecsl.gifimageview.library.GifImageView
+        android:id="@+id/gifImage"
+        android:layout_width = "200dp"
+        android:layout_height="wrap_content" />
+
+<!--  <ImageView
+          android:layout_width="200dp"
             android:layout_height="wrap_content"
             app:srcCompat="@drawable/ic_launcher"
             android:id="@+id/view_logo"
             android:adjustViewBounds="true"
             style="@style/WelcomeScreenLogoStyle"
-            tools:ignore="ContentDescription"/>
+            tools:ignore="ContentDescription"/>  -->
 
     <Button
             android:text="@string/action_sign_in"
